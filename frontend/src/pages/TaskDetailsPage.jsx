@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTasks } from '../hooks/useAuth.js';
 import { useToast } from '../hooks/useAuth.js';
-import Navbar from '../components/Navbar.jsx';
+import Navbar from '../components/dashboard/Navbar.jsx';
 import Loading from '../components/Loading.jsx';
 
 const TaskDetailsPage = () => {
