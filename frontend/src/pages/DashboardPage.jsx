@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTasks } from '../hooks/useAuth.js';
-import Navbar from '../components/Navbar.jsx';
+import Navbar from '../components/dashboard/Navbar.jsx';
 import SearchBar from '../components/SearchBar.jsx';
 import TaskList from '../components/TaskList.jsx';
 
