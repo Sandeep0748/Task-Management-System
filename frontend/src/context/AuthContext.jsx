@@ -9,16 +9,33 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Initialize auth from localStorage
+  // Initialize auth from localStorage and validate token
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
+    const initializeAuth = async () => {
+      const storedToken = localStorage.getItem('token');
+      const storedUser = localStorage.getItem('user');
 
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(JSON.parse(storedUser));
-    }
-    setLoading(false);
+      if (storedToken && storedUser) {
+        try {
+          // Validate token by fetching current user
+          const response = await api.get('/auth/me');
+          const { user } = response.data;
+          setToken(storedToken);
+          setUser(user);
+          localStorage.setItem('user', JSON.stringify(user));
+        } catch (err) {
+          // Token is invalid, clear localStorage
+          console.error('Token validation failed:', err);
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          setToken(null);
+          setUser(null);
+        }
+      }
+      setLoading(false);
+    };
+
+    initializeAuth();
   }, []);
 
   // Listen for token expiry event
